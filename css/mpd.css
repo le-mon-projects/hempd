@@ -1,0 +1,89 @@
+body {
+  padding-top: 50px;
+  padding-bottom: 50px;
+
+}
+
+.starter-template {
+  padding: 40px 15px;
+}
+
+#volume-icon {
+  float: left;
+  margin-right: 10px;
+  margin-top: 2px;
+}
+
+#counter {
+	font-size: 24px;
+	margin-top: -6px;
+	margin-left: 10px;
+	min-width: 50px;
+}
+
+.btn-group-hover {
+    opacity: 20%;
+}
+
+.btn:active,
+.btn.active {
+  background-image: none;
+  outline: 0;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+          box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  color: #428bca;
+  background-color: #fdfdfd;
+  border-color: #adadad;
+}
+
+@media (max-width: 1199px) {
+#btn-responsive-block > .btn {
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 4px;
+  }
+}
+
+#salamisandwich td:nth-child(3), th:nth-child(3) {
+  text-align: left;
+}
+
+tbody {
+  cursor: pointer;
+}
+
+td:last-child, td:first-child {
+  width: 30px; 
+}
+
+.notifications {
+  position: fixed;
+  z-index: 9999;
+}
+
+/* Positioning */ 
+.notifications.top-right {
+  right: 10px;
+  top: 60px;
+}
+
+/* Notification Element */
+.notifications > div {
+  position: relative;
+  z-index: 9999;
+  margin: 5px 0px;
+}
+
+tr.play {
+    background-color: #f1f3f4;    
+}
+
+td.play {
+    color: #428bca;
+}
+
+.btn-defaultplay, .btn-defaultpause {
+    background-color: #fff !important;
+    border-color: rgb(204, 204, 204);
+}
+
