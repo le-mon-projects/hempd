@@ -5,6 +5,6 @@
  */
  
   $host = 'localhost';
-  $mpdPort = 6601;
+  $mpdPort = 6600;
   $mpdPassword = null;
 ?>
