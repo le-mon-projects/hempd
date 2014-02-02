@@ -6,10 +6,8 @@ require_once('globalFunctions.php');
 
 $mpd = new mpd($host,$mpdPort,$mpdPassword);
 
-if (isset($_GET['request']))
-  $request = $_GET['request'];
-else
-  $request = "";
+
+  $request = getUrlParam('request');
 
 switch ($request) {
   case "playqueue": printPlayQueue($mpd);                       break;

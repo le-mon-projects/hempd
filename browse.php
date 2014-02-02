@@ -4,17 +4,13 @@ require_once('mpd/mpdconfig.php');
 require_once('mpd/mpd.class.php');
 require_once('mpd/globalFunctions.php');
 
-if ($_GET['query']) 
-    $query = $_GET['query'];
+    $query = getUrlParam('query');
 
-if ($_GET['mode']) 
-    $mode = $_GET['mode'];
+    $mode = getUrlParam('mode');
 
-if ($_GET['artist']) 
-    $artist = $_GET['artist'];
+    $artist = getUrlParam('artist');
 
-if ($_GET['album']) 
-    $album = $_GET['album'];
+    $album = getUrlParam('album');
 
 ?>
 	

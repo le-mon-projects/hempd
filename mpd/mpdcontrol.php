@@ -17,25 +17,16 @@ if ( !$mpd->connected)
 }
 
 // GET variables
-if (isset($_GET['action']))
-  $action = $_GET['action'];
-else
-  $action = "";
+  $action = getUrlParam( 'action' );
 
-if (isset($_GET['track']))
-  $track = $_GET['track'];
-else
-  $track = "";
+  $track = getUrlParam( 'track' );
 
-if (isset($_GET['name']))
-  $PLname = $_GET['name'];
-else
-  $PLname = "[unbenannt]";
+  $PLname = getUrlParam( 'name' );
+  if ($PLname == ""){
+  	$PLname = "[unbenannt]";
+  }
 
-if (isset($_GET['zeit']))
-  $zeit = $_GET['zeit'];
-else
-  $zeit = "";
+  $zeit = getUrlParam( 'zeit' );
 
 // Control
 switch ($action)
@@ -71,11 +62,11 @@ switch ($action)
       break;
 
   case "addAllSongsFromPlaylist": 
-    addAllSongsFromPlaylist($_GET['playlist'], $mpd);
+    addAllSongsFromPlaylist( getUrlParam('playlist'), $mpd);
     break;
 
   case "addAllSongsFromSearch":
-    addAllSongsFromSearch($_GET['query'], $mpd);
+    addAllSongsFromSearch(getUrlParam('query'), $mpd);
     break;
 
   default:                                           break;

@@ -1,5 +1,15 @@
 <?php
 
+function getUrlParam( $name ){
+    if (!isset($_GET[$name])){
+      $ret='';
+    } else {
+      $ret=$_GET[$name];
+    }
+
+    return $ret;
+}
+
 function convertSecsToMinsSecs($seconds) {
 	date_default_timezone_set('Europe/Berlin');
 	$minutes = floor($seconds / 60);
@@ -55,6 +65,7 @@ function printArray($array) {
 function getPlaylistDate($mpd) {
     $playlistInfo = ($mpd->SendCommand("listplaylists"));
     $playlistInfo = explode("\n", $playlistInfo);
+    $index=0;
     foreach ($playlistInfo as $value) {
         if (preg_match('/playlist:/', $value))
             $listsInfoArray[++$index]['playlist'] = preg_replace("/playlist: /", "", $value);                        
