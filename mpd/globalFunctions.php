@@ -5,7 +5,7 @@ function convertSecsToMinsSecs($seconds) {
 	$minutes = floor($seconds / 60);
 	$seconds = $seconds % 60;
 	return $minutes.":".date("s", $seconds);
-	return $seconds;
+	//return $seconds;
 }
 
 function getDataArrayFromString($dataString) {
