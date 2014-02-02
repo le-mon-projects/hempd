@@ -40,7 +40,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/radiohemp/hempd"><span class="glyphicon glyphicon-play-circle"></span> Start</a>
+                <a class="navbar-brand" href="<?php echo dirname($_SERVER['PHP_SELF']); ?>"><span class="glyphicon glyphicon-play-circle"></span> Start</a>
                 <a class="navbar-brand" href="browse.php"><span class="glyphicon glyphicon-search"></span> Media</a>
             </div>
             <div class="collapse navbar-collapse">
