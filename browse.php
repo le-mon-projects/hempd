@@ -7,10 +7,16 @@ require_once('mpd/globalFunctions.php');
     $query = getUrlParam('query');
 
     $mode = getUrlParam('mode');
+    
+    $search_mode = getUrlParam('search_mode');
 
     $artist = getUrlParam('artist');
 
     $album = getUrlParam('album');
+    
+    if (($mode == 'artists') xor ($search_mode == 'artist')) {
+        $search = 'artist';
+    } else $search = 'any';
 
 ?>
 	
@@ -24,7 +30,8 @@ require_once('mpd/globalFunctions.php');
                 <form action="browse.php" method="get">                                    
                 <div class="input-group">
                         <input type="text" name="mode" value="search" hidden></input>
-                        <input type="text" name="query" class="form-control" placeholder="Alles durchsuchen">
+                        <input type="text" name="search_mode" value="<?php print $search; ?>" hidden></input>
+                        <input type="text" name="query" class="form-control" placeholder="Search <?php print $search; ?>">
                         <span class="input-group-btn">
                             <button class="btn btn-success" type="submit">Go!</button>
                         </span>
@@ -38,11 +45,9 @@ require_once('mpd/globalFunctions.php');
                 switch ($mode) {
                     case "search":                   
                         // Suchergebnisse START                    
-
-                        $mpd = new mpd($host,$mpdPort,$mpdPassword);
-                        $searchResults = $mpd->Search("any", $query);
-
                         
+                        $mpd = new mpd($host,$mpdPort,$mpdPassword);
+                        $searchResults = $mpd->Search($search_mode, $query);                       
                             
                         ?>
                         <ol class="breadcrumb">
@@ -82,6 +87,7 @@ require_once('mpd/globalFunctions.php');
     
                             if ($searchResults) {
                             // Then print the tracks
+                                
                                 $number = 0;
                                 foreach ($searchResults['files'] as $key => $tracks) {
                                     $track = $tracks['Artist']." - ".$tracks['Title'];
@@ -89,13 +95,19 @@ require_once('mpd/globalFunctions.php');
                                     $track = str_replace ("\'", "\\'", $track);                                            
                                     $track = urlencode($track);
                                     
-                                    echo "<tr onclick='addTrackToPlayQueue(&#34;".urlencode($tracks['file'])."&#34;, &#34;".$track."&#34;)'>";
-                                    echo "<td>".++$number."</td>";
-                                    echo "<td>".$tracks['Artist']." - ".$tracks['Title']."</td>";                      
-                                    echo "<td>".convertSecsToMinsSecs($tracks['Time'])."</td></tr>";                      
+                                    if (array_key_exists('Album', $tracks)) {                                        
+                                        $result_album = "Album: ".$tracks['Album'];
+                                    } else {
+                                        $result_album = "no album information";
+                                    }
+                                    
+                                    echo "<tr onclick='addTrackToPlayQueue(&#34;" . urlencode($tracks['file']) . "&#34;, &#34;" . $track . "&#34;)'>";
+                                    echo "<td>" . ++$number . "</td>";
+                                    echo "<td>" . $tracks['Artist'] . " - " . $tracks['Title'] . "<br /><span class='album-grey'>" . $result_album . "</span></td>";                      
+                                    echo "<td>" . convertSecsToMinsSecs($tracks['Time']) . "</td></tr>";                      
 
                                 }
-                            } else echo "<tr><td colspan='2'>keine Ergebnisse für <i>".$query."</i> </td></tr>";
+                            } else echo "<tr><td colspan='2'>keine Ergebnisse für <i>" . $query . "</i> </td></tr>";
 
                         ?>
                                 </tbody>
