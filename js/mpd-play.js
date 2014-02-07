@@ -32,6 +32,12 @@ var updatePage = function() {
         if (MPD.random == 1 && ($("#shuffleCheckbox").hasClass("active") == false)) 
             $("#shuffleCheckbox").button('toggle');
         
+        if (MPD.consume == 1 && ($("#consumeCheckbox").hasClass("active") == false)) 
+            $("#consumeCheckbox").button('toggle');
+                
+        if (MPD.single == 1 && ($("#singleCheckbox").hasClass("active") == false)) 
+            $("#singleCheckbox").button('toggle');        
+        
         if (MPD.repeat == 1 && ($("#repeatCheckbox").hasClass("active") == false))
             $("#repeatCheckbox").button('toggle');     
 
@@ -171,27 +177,44 @@ $(document).ready(function(){
     
     
     $( "#shuffleCheckbox" ).click(function() {
-
         if(MPD.random == 1){
             mpdAction("RandomOff", false);            
             MPD.random = 0;
         } else {                    
             mpdAction("RandomOn", false);            
             MPD.random = 1;
-        }
-        
+        }        
     });
 
     $( "#repeatCheckbox" ).click(function() {
         if(MPD.repeat == 1){
-            mpdAction("RepeatOff". false);
+            mpdAction("RepeatOff", false);
             MPD.repeat = 0;
         } else {        
             mpdAction("RepeatOn", false);
             MPD.repeat = 1;
-        }          
-        
+        }
     });
+    
+    $( "#singleCheckbox" ).click(function() {
+        if(MPD.single == 1){
+            mpdAction("SingleOff", false);
+            MPD.single = 0;
+        } else {        
+            mpdAction("SingleOn", false);
+            MPD.single = 1;
+        }
+    });    
+    
+    $( "#consumeCheckbox" ).click(function() {
+        if(MPD.consume == 1){
+            mpdAction("ConsumeOff", false);
+            MPD.consume = 0;
+        } else {        
+            mpdAction("ConsumeOn", false);
+            MPD.consume = 1;
+        }
+    });     
     
     $( "#clearButton" ).click(function() {
         $(function() {
