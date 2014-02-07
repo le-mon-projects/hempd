@@ -17,7 +17,7 @@ require_once('mpd/globalFunctions.php');
     if (($mode == 'artists') xor ($search_mode == 'artist')) {
         $search = 'for artist';
         $search_mode = 'artist';
-    } if (($mode == 'albums') xor ($search_mode == 'album') xor ($album != NULL)) {
+    } elseif (($mode == 'albums') xor ($search_mode == 'album') xor ($album != NULL)) {
         $search = 'for album';
         $search_mode = 'album';
     } else {
