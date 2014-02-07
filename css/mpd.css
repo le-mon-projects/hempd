@@ -87,3 +87,8 @@ td.play {
     border-color: rgb(204, 204, 204);
 }
 
+.album-grey {
+    color: #999;
+    font-size: 0.8em;
+}
+
