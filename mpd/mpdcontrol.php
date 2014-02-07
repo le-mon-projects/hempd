@@ -42,6 +42,10 @@ switch ($action)
   case "RandomOff":      $mpd->SetRandom(0);         break;
   case "RepeatOn":       $mpd->SetRepeat(1);         break;
   case "RepeatOff":      $mpd->SetRepeat(0);         break;
+  case "SingleOn":       $mpd->SetSingle(1);         break;  
+  case "SingleOff":      $mpd->SetSingle(0);         break;  
+  case "ConsumeOn":      $mpd->SetConsume(1);        break;  
+  case "ConsumeOff":     $mpd->SetConsume(0);        break;    
   case "VolumeUp":       $mpd->AdjustVolume(5);      break;
   case "VolumeDown":     $mpd->AdjustVolume(-5);     break;
   case "PLSave":         PLSave($PLname, $mpd);                   break;
@@ -76,6 +80,8 @@ switch ($action)
 echo $mpd->state."\n";
 echo $mpd->random."\n";
 echo $mpd->repeat."\n";
+echo $mpd->single."\n";
+echo $mpd->consume."\n";
 echo $mpd->playlist_count."\n";
 
 if ($mpd->state != "stop")
