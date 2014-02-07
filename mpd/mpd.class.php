@@ -60,6 +60,8 @@ define("MPD_CMD_PLADD",       "add");
 define("MPD_CMD_PLREMOVE",    "delete");
 define("MPD_CMD_PLCLEAR",     "clear");
 define("MPD_CMD_PLSHUFFLE",   "shuffle");
+define("MPD_CMD_PLSINGLE",    "single");
+define("MPD_CMD_PLCONSUME",   "consume");
 define("MPD_CMD_PLLOAD",      "load");
 define("MPD_CMD_PLSAVE",      "save");
 define("MPD_CMD_KILL",        "kill");
@@ -130,6 +132,8 @@ class mpd {
     var $volume;
     var $repeat;
     var $random;
+    var $single;
+    var $cosnsume;
 
     var $uptime;
     var $playtime;
@@ -520,6 +524,28 @@ class mpd {
         if ( $this->debugging ) echo "mpd->PLShuffle() / return\n";
         return $resp;
     }
+    
+    /* PLSingle() 
+     * 
+     * When single is activated, playback is stopped after current song, or song is repeated if the 'repeat' mode is enabled.
+     */
+    function PLSingle() {
+        if ( $this->debugging ) echo "mpd->PLSingle()\n";
+        if ( ! is_null($resp = $this->SendCommand(MPD_CMD_PLSINGLE))) $this->RefreshInfo();
+        if ( $this->debugging ) echo "mpd->PLSingle() / return\n";
+        return $resp;
+    }   
+    
+    /* PLConsume() 
+     * 
+     * When consume is activated, the track gets removed from playlist when finnished playing. 
+     */
+    function PLConsume() {
+        if ( $this->debugging ) echo "mpd->PLConsume()\n";
+        if ( ! is_null($resp = $this->SendCommand(MPD_CMD_PLCONSUME))) $this->RefreshInfo();
+        if ( $this->debugging ) echo "mpd->PLConsume() / return\n";
+        return $resp;
+    }    
 
     /* PLLoad() 
      * 
@@ -595,6 +621,32 @@ class mpd {
         if ( $this->debugging ) echo "mpd->SetRandom() / return\n";
         return $resp;
     }
+    
+    /* SetSingle() 
+     * 
+     * Enables 'single' mode -- tells MPD to play only one song and stop or repeat. The
+     * <snglVal> parameter is either 1 (on) or 0 (off).
+     */
+    function SetSingle($snglVal) {
+        if ( $this->debugging ) echo "mpd->SetSingle()\n";
+        $resp = $this->SendCommand(MPD_CMD_PLSINGLE,$snglVal);
+        $this->single = $snglVal;
+        if ( $this->debugging ) echo "mpd->SetSingle() / return\n";
+        return $resp;
+    }    
+    
+    /* SetConsume() 
+     * 
+     * Enables 'consume' mode -- When consume is activated, each song played is removed from playlist.
+     * The <cnsmVal> parameter is either 1 (on) or 0 (off).
+     */
+    function SetConsume($cnsmVal) {
+        if ( $this->debugging ) echo "mpd->SetConsume()\n";
+        $resp = $this->SendCommand(MPD_CMD_PLCONSUME,$cnsmVal);
+        $this->consume = $cnsmVal;
+        if ( $this->debugging ) echo "mpd->SetConsume() / return\n";
+        return $resp;
+    }     
 
     /* Shutdown() 
      * 
@@ -1033,6 +1085,7 @@ class mpd {
     function RefreshInfo() {
         // Get the Server Statistics
         $statStr = $this->SendCommand(MPD_CMD_STATISTICS);
+        
         if ( !$statStr ) {
             return NULL;
         } else {
@@ -1048,6 +1101,7 @@ class mpd {
 
         // Get the Server Status
         $statusStr = $this->SendCommand(MPD_CMD_STATUS);
+                
         if ( ! $statusStr ) {
             return NULL;
         } else {
@@ -1083,9 +1137,11 @@ class mpd {
             $this->current_track_length = -1;
         }
 
-        $this->repeat = $status['repeat'];
-        $this->random = $status['random'];
-
+        $this->repeat  = $status['repeat'];
+        $this->random  = $status['random'];
+        $this->single  = $status['single'];
+        $this->consume = $status['consume'];
+        
         $this->db_last_refreshed = $stats['db_update'];
 
         $this->volume = $status['volume'];
@@ -1189,13 +1245,14 @@ class mpd {
 
     /* ----------------- Command compatibility tables --------------------- */
     var $COMPATIBILITY_MIN_TBL = array(
-        MPD_CMD_SEEK         => "0.9.1"    ,
+        MPD_CMD_SEEK        => "0.9.1"    ,
         MPD_CMD_PLMOVE      => "0.9.1"    ,
         MPD_CMD_RANDOM      => "0.9.1"    ,
-        MPD_CMD_PLSWAPTRACK    => "0.9.1"    ,
-        MPD_CMD_PLMOVETRACK    => "0.9.1"  ,
-        MPD_CMD_PASSWORD    => "0.10.0" ,
-        MPD_CMD_SETVOL      => "0.10.0"    
+        MPD_CMD_PLSWAPTRACK => "0.9.1"    ,
+        MPD_CMD_PLMOVETRACK => "0.9.1"    ,
+        MPD_CMD_PASSWORD    => "0.10.0"   ,
+        MPD_CMD_SETVOL      => "0.10.0"   ,
+        MPD_CMD_PLCONSUME   => "0.15.0"
         
     );
 
