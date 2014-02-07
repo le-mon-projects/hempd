@@ -31,12 +31,14 @@ var getStatus = function() {
     MPD.status = serverResponseLine[0];
     MPD.random = serverResponseLine[1];
     MPD.repeat = serverResponseLine[2];
-    MPD.playqueueCount = serverResponseLine[3];
-    MPD.track = serverResponseLine[4];
-    MPD.artist = serverResponseLine[5];
-    MPD.album = serverResponseLine[6];
-    MPD.position = serverResponseLine[7];
-    MPD.dauer = serverResponseLine[8];   
+    MPD.single = serverResponseLine[3];
+    MPD.consume = serverResponseLine[4];
+    MPD.playqueueCount = serverResponseLine[5];
+    MPD.track = serverResponseLine[6];
+    MPD.artist = serverResponseLine[7];
+    MPD.album = serverResponseLine[8];
+    MPD.position = serverResponseLine[9];
+    MPD.dauer = serverResponseLine[10];   
 
 }
 
