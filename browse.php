@@ -15,8 +15,15 @@ require_once('mpd/globalFunctions.php');
     $album = getUrlParam('album');
     
     if (($mode == 'artists') xor ($search_mode == 'artist')) {
-        $search = 'artist';
-    } else $search = 'any';
+        $search = 'for artist';
+        $search_mode = 'artist';
+    } if (($mode == 'albums') xor ($search_mode == 'album') xor ($album != NULL)) {
+        $search = 'for album';
+        $search_mode = 'album';
+    } else {
+        $search = 'any';
+        $search_mode = 'any';
+    }
 
 ?>
 	
@@ -30,7 +37,7 @@ require_once('mpd/globalFunctions.php');
                 <form action="browse.php" method="get">                                    
                 <div class="input-group">
                         <input type="text" name="mode" value="search" hidden></input>
-                        <input type="text" name="search_mode" value="<?php print $search; ?>" hidden></input>
+                        <input type="text" name="search_mode" value="<?php print $search_mode; ?>" hidden></input>
                         <input type="text" name="query" class="form-control" placeholder="Search <?php print $search; ?>">
                         <span class="input-group-btn">
                             <button class="btn btn-success" type="submit">Go!</button>
