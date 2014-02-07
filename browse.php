@@ -135,7 +135,7 @@ require_once('mpd/globalFunctions.php');
                         $artistsResults = $mpd->GetArtists();
                         
                         // delete 1st element because its NULL 
-                        unset ($artistsResults[0]);                                          
+                        if ($artistsResults[0] == NULL) unset ($artistsResults[0]);                                          
                         
                         ?>
                         <ol class="breadcrumb">
@@ -170,11 +170,11 @@ require_once('mpd/globalFunctions.php');
                     
                     case "albums":
                         // Alle Interpreten START
-                        $mpd = new mpd($host,$mpdPort,$mpdPassword);
+                        $mpd = new mpd($host,$mpdPort,$mpdPassword);                        
                         $albumResults = $mpd->GetAlbums(urldecode($query));
-                        
+                                                
                         // delete 1st element because its NULL 
-                        unset ($albumResults[0]);                    
+                        if ($albumResults[0] == NULL) unset ($albumResults[0]);                    
                         
                         ?>
                         <ol class="breadcrumb">
