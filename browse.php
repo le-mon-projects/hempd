@@ -55,7 +55,7 @@ require_once('mpd/globalFunctions.php');
                         
                         $mpd = new mpd($host,$mpdPort,$mpdPassword);
                         $searchResults = $mpd->Search($search_mode, $query);                       
-                            
+                        
                         ?>
                         <ol class="breadcrumb">
                             <li><a href="browse.php">Bibliothek</a></li>                            
@@ -94,7 +94,7 @@ require_once('mpd/globalFunctions.php');
     
                             if ($searchResults) {
                             // Then print the tracks
-                                
+
                                 $number = 0;
                                 foreach ($searchResults['files'] as $key => $tracks) {
                                     $track = $tracks['Artist']." - ".$tracks['Title'];
@@ -133,7 +133,9 @@ require_once('mpd/globalFunctions.php');
 
                         $mpd = new mpd($host,$mpdPort,$mpdPassword);
                         $artistsResults = $mpd->GetArtists();
-                                          
+                        
+                        // delete 1st element because its NULL 
+                        unset ($artistsResults[0]);                                          
                         
                         ?>
                         <ol class="breadcrumb">
@@ -171,7 +173,8 @@ require_once('mpd/globalFunctions.php');
                         $mpd = new mpd($host,$mpdPort,$mpdPassword);
                         $albumResults = $mpd->GetAlbums(urldecode($query));
                         
-                   
+                        // delete 1st element because its NULL 
+                        unset ($albumResults[0]);                    
                         
                         ?>
                         <ol class="breadcrumb">
