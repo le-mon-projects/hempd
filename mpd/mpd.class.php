@@ -951,8 +951,9 @@ class mpd {
         
         $item=null;
         foreach ($lineList as $line ){
-            list ( $element, $value ) = explode(": ",$line);
 
+            // set $limit = 2 in case data contains doublepoint 
+            list ( $element, $value ) = explode(": ",$line, 2);
             
             // if one of the key words come up, store the item
             if (($element == "directory") or ($element=="playlist") or ($element=="file")){
