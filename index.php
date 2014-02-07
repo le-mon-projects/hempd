@@ -59,20 +59,23 @@
                         <button id="shuffleCheckbox" type="button" class="btn btn-default">
                             <span class="glyphicon glyphicon-random"></span> Random
                         </button>
-                        <button id="btnsingle" type="button" class="btn btn-default">
-                            <span class="glyphicon glyphicon-star"></span> Einzeln
+                        <button id="singleCheckbox" type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-star"></span> Single
                         </button>
                         <button id="repeatCheckbox" type="button" class="btn btn-default">
                             <span class="glyphicon glyphicon-repeat"></span> Repeat
                         </button>
+                        <button id="consumeCheckbox" type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-fire"></span> Consume
+                        </button>                        
                     </div>
 
                     <div id="btn-responsive-block" class="btn-group-vertical btn-block btn-group-lg">
                         <button type="button" class="btn btn-default" id="clearButton">
-                            <span class="glyphicon glyphicon-trash"></span> Leeren
+                            <span class="glyphicon glyphicon-trash"></span> Clear
                         </button>
                         <button type="button" class="btn btn-default" id="saveButton">
-                            <span class="glyphicon glyphicon-save"></span> Speichern
+                            <span class="glyphicon glyphicon-save"></span> Save
                         </button>
                         
                     </div>
