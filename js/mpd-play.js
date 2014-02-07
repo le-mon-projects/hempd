@@ -29,11 +29,11 @@ var updatePage = function() {
         var progress = Math.floor(100*MPD.position/MPD.dauer);
         $('#progressbar').slider(progress);    
         
-        if (MPD.random == 1) 
+        if (MPD.random == 1 && ($("#shuffleCheckbox").hasClass("active") == false)) 
             $("#shuffleCheckbox").button('toggle');
         
-        if (MPD.repeat == 1)
-            $("#randomCheckbox").button('toggle');     
+        if (MPD.repeat == 1 && ($("#repeatCheckbox").hasClass("active") == false))
+            $("#repeatCheckbox").button('toggle');     
 
         updateZeit(MPD.position);
 	updatePlayQueue();        
