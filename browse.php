@@ -60,7 +60,7 @@ require_once('mpd/globalFunctions.php');
                         <ol class="breadcrumb">
                             <li><a href="browse.php">Bibliothek</a></li>                            
                             <?php if (strlen($artist)!=0) { ?>
-                                <li><a href="browse.php?mode=artists">Interpreten</a></li>
+                                <li><a href="browse.php?mode=artists">Artists</a></li>
                                 <li><a href="browse.php?mode=albums&query=<?php print urlencode($artist); ?>&artist=<?php print urlencode($artist); ?>"><?php print $artist; ?></a></li>                          
                             <?php } elseif (strlen($artist)==0 && strlen($album)!=0) { ?>
                                 <li>Album</li>                          
@@ -129,7 +129,7 @@ require_once('mpd/globalFunctions.php');
                         
                     case "artists":
                     
-                        // Alle Interpreten START
+                        // All Artists START
 
                         $mpd = new mpd($host,$mpdPort,$mpdPassword);
                         $artistsResults = $mpd->GetArtists();
@@ -140,11 +140,11 @@ require_once('mpd/globalFunctions.php');
                         ?>
                         <ol class="breadcrumb">
                           <li><a href="browse.php">Bibliothek</a></li>
-                          <li class="active">Interpreten</li>
+                          <li class="active">Artists</li>
                         </ol>
                         <div class="list-group">
                             <a class="list-group-item active">
-                                <span>Interpreten</span>
+                                <span>Artists</span>
                             </a>  
                             
                         <?php   
@@ -165,11 +165,11 @@ require_once('mpd/globalFunctions.php');
 
                         <?php
                         
-                        // Alle Interpreten ENDE
+                        // All Artists ENDE
                         break;
                     
                     case "albums":
-                        // Alle Interpreten START
+                        // All Artists START
                         $mpd = new mpd($host,$mpdPort,$mpdPassword);                        
                         $albumResults = $mpd->GetAlbums(urldecode($query));
                                                 
@@ -180,7 +180,7 @@ require_once('mpd/globalFunctions.php');
                         <ol class="breadcrumb">
                           <li><a href="browse.php">Bibliothek</a></li>
                           <?php if (strlen($artist)!=0) { ?>
-                            <li><a href="browse.php?mode=artists">Interpreten</a></li>
+                            <li><a href="browse.php?mode=artists">Artists</a></li>
                           <?php } ?>
                           <?php if (strlen($artist)==0 && strlen($album)==0) { ?>
                             <li>Alle Alben</li>
@@ -212,7 +212,7 @@ require_once('mpd/globalFunctions.php');
 
 
                         <?php
-                        // Alle Interpreten ENDE
+                        // All Artists ENDE
                         break;
                     case "playlists":
                         // Alle Playlists START
@@ -272,7 +272,7 @@ require_once('mpd/globalFunctions.php');
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Interpret</th>
+                                        <th>Artist</th>
                                         <th>Titel</th>
                                         <th>Zeit</th>
                                     </tr>
@@ -307,9 +307,9 @@ require_once('mpd/globalFunctions.php');
                         // einzelne Playlist ENDE
                         break;
                     case "radios":
-                        // Alle Interpreten START
+                        // All Artists START
                         echo "Webradios";
-                        // Alle Interpreten ENDE
+                        // All Artists ENDE
                         break;                     
                 
                     default:                    
@@ -325,7 +325,7 @@ require_once('mpd/globalFunctions.php');
 
                         <a class="list-group-item" href="browse.php?mode=artists">
                                 <span class="ArtistIcon image"></span>
-                                <span class="name">Interpreten</span>
+                                <span class="name">Artists</span>
                                 <span class="arrow"></span>
                         </a>
                         <a class="list-group-item" href="browse.php?mode=albums">

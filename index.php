@@ -23,7 +23,7 @@
                              <h4>
                                  <span class="h6">Album:</span></br >
                                  <span id="Album" class="text"></span><br />
-                                 <span class="h6">Interpret:</span><br />
+                                 <span class="h6">Artist:</span><br />
                                  <span id="Artist" class="text"></span>
                              </h4>
                          </div>

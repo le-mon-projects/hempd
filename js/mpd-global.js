@@ -20,10 +20,10 @@ var getStatus = function() {
     /* Verbindungscheck */
 
     if (serverResponse.search("Could not connect to the MPD server") != -1) {
-        MPD.connectedMessage = "Konnte nicht zum MPD-Server verbinden";
+        MPD.connectedMessage = "Connection to "+hostname+ "failed";
     } else {
         var hostname = document.getElementById("hostname").content;
-        MPD.connectedMessage = "Verbunden mit " + hostname;
+        MPD.connectedMessage = "Connected to " + hostname;
     }
     
     var serverResponseLine = serverResponse.split("\n");
