@@ -43,7 +43,7 @@
                             <tr>
                                 <th>#</th>
                                 <th></th>
-                                <th>Titel</th>
+                                <th>Track</th>
                                 <th>Zeit</th>
                             </tr>
                         </thead>
