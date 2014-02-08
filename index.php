@@ -44,7 +44,7 @@
                                 <th>#</th>
                                 <th></th>
                                 <th>Track</th>
-                                <th>Zeit</th>
+                                <th>Time</th>
                             </tr>
                         </thead>
                         <tbody id="playlist">

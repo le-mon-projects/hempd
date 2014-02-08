@@ -26,7 +26,7 @@ if ( !$mpd->connected)
   	$PLname = "[unbenannt]";
   }
 
-  $zeit = getUrlParam( 'zeit' );
+  $time = getUrlParam( 'time' );
 
 // Control
 switch ($action)
@@ -37,7 +37,7 @@ switch ($action)
   case "Next":           $mpd->Next();               break;
   case "Previous":       $mpd->Previous();           break;
   case "SkipTo":         $mpd->SkipTo($track);       break;
-  case "spulen":         $mpd->SeekTo($zeit);        break;  
+  case "spulen":         $mpd->SeekTo($time);        break;  
   case "RandomOn":       $mpd->SetRandom(1);         break;
   case "RandomOff":      $mpd->SetRandom(0);         break;
   case "RepeatOn":       $mpd->SetRepeat(1);         break;

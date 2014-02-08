@@ -84,7 +84,7 @@ require_once('mpd/globalFunctions.php');
                                     <tr>
                                         <th>#</th>
                                         <th>Track</th>
-                                        <th>Zeit</th>
+                                        <th>Time</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -274,7 +274,7 @@ require_once('mpd/globalFunctions.php');
                                         <th>#</th>
                                         <th>Artist</th>
                                         <th>Track</th>
-                                        <th>Zeit</th>
+                                        <th>Time</th>
                                     </tr>
                                 </thead>
                                 <tbody>               

@@ -41,12 +41,12 @@ var updatePage = function() {
         if (MPD.repeat == 1 && ($("#repeatCheckbox").hasClass("active") == false))
             $("#repeatCheckbox").button('toggle');     
 
-        updateZeit(MPD.position);
+        updateTime(MPD.position);
 	updatePlayQueue();        
 }
 
-var spulen = function(zeit) {
-    var action = "spulen&zeit=" + zeit;
+var spulen = function(time) {
+    var action = "spulen&time=" + time;
     mpdAction(action, false);
 }
 
@@ -141,7 +141,7 @@ var clearPlayQueue = function(event) {
     mpdAction(action, true);
 }
 
-var updateZeit = function() {        
+var updateTime = function() {        
     var state = $("#state").text();
     if (state == "play") {    
         var altPos = $("#position-sek").text();
@@ -152,8 +152,8 @@ var updateZeit = function() {
         var progress = Math.floor(100*neuPos/MPD.dauer);
         $('#progressbar').slider(progress);
 
-        var Zeit = convertSecsToMinsSecs(neuPos) + " - " + convertSecsToMinsSecs(MPD.dauer)
-        $("#position").text(Zeit);
+        var TrackTime = convertSecsToMinsSecs(neuPos) + " - " + convertSecsToMinsSecs(MPD.dauer)
+        $("#position").text(TrackTime);
         $("#position-sek").text(neuPos);        
         if (neuPos > MPD.dauer) {
             updatePage();
@@ -163,7 +163,7 @@ var updateZeit = function() {
 
 $(document).ready(function(){
     
-    setInterval( "updateZeit()", 1000 ); // Auto update the page
+    setInterval( "updateTime()", 1000 ); // Auto update the page
     setInterval( "updatePage()", 10000 ); // Auto update the page
     updatePage();
     
@@ -172,7 +172,7 @@ $(document).ready(function(){
             var seekVal = Math.ceil(MPD.dauer*(data.val/100));
             document.getElementById("position-sek").innerHTML = seekVal-1;            
             spulen(seekVal);   
-            updateZeit(seekVal,false)
+            updateTime(seekVal,false)
     });
     
     
