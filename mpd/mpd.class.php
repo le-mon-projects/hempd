@@ -1122,6 +1122,9 @@ class mpd {
            $this->playlist = array();
            if (sizeof($playlist)>0){
             foreach ($playlist as $item ){
+		// start-workaround 07.feb.2014 - tswaehn
+                if (!isset($item['Album'])){ $item['Album']=''; }
+                // end-workaround
                 $this->playlist[$item['Pos']]=$item;
             }
            }
