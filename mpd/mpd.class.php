@@ -133,7 +133,7 @@ class mpd {
     var $repeat;
     var $random;
     var $single;
-    var $cosnsume;
+    var $consume;
 
     var $uptime;
     var $playtime;
