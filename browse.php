@@ -1,4 +1,4 @@
-<?php include("header.php"); 
+<?php include("header.php");
 
 require_once('mpd/mpdconfig.php');
 require_once('mpd/mpd.class.php');
@@ -7,13 +7,13 @@ require_once('mpd/globalFunctions.php');
     $query = getUrlParam('query');
 
     $mode = getUrlParam('mode');
-    
+
     $search_mode = getUrlParam('search_mode');
 
     $artist = getUrlParam('artist');
 
     $album = getUrlParam('album');
-    
+
     if (($mode == 'artists') xor ($search_mode == 'artist')) {
         $search = 'for artist';
         $search_mode = 'artist';
@@ -26,15 +26,15 @@ require_once('mpd/globalFunctions.php');
     }
 
 ?>
-	
+
 <script src="js/mpd-browse.js" type="text/javascript"></script>
 
 
     <div class="container starter-template">
         <div class="row">
 
-            <div class="col-md-10 col-xs-12">		
-                <form action="browse.php" method="get">                                    
+            <div class="col-md-10 col-xs-12">
+                <form action="browse.php" method="get">
                 <div class="input-group">
                         <input type="text" name="mode" value="search" hidden></input>
                         <input type="text" name="search_mode" value="<?php print $search_mode; ?>" hidden></input>
@@ -42,30 +42,30 @@ require_once('mpd/globalFunctions.php');
                         <span class="input-group-btn">
                             <button class="btn btn-success" type="submit">Go!</button>
                         </span>
-                        
-                </div><!-- /input-group -->                    
-                </form>                                        
+
+                </div><!-- /input-group -->
+                </form>
                 <br />
-                
-                <?php 
-                
+
+                <?php
+
                 switch ($mode) {
-                    case "search":                   
-                        // Suchergebnisse START                    
-                        
+                    case "search":
+                        // Suchergebnisse START
+
                         $mpd = new mpd($host,$mpdPort,$mpdPassword);
-                        $searchResults = $mpd->Search($search_mode, $query);                       
-                        
+                        $searchResults = $mpd->Search($search_mode, $query);
+
                         ?>
                         <ol class="breadcrumb">
-                            <li><a href="browse.php">Bibliothek</a></li>                            
+                            <li><a href="browse.php">Bibliothek</a></li>
                             <?php if (strlen($artist)!=0) { ?>
                                 <li><a href="browse.php?mode=artists">Artists</a></li>
-                                <li><a href="browse.php?mode=albums&query=<?php print urlencode($artist); ?>&artist=<?php print urlencode($artist); ?>"><?php print $artist; ?></a></li>                          
+                                <li><a href="browse.php?mode=albums&query=<?php print urlencode($artist); ?>&artist=<?php print urlencode($artist); ?>"><?php print $artist; ?></a></li>
                             <?php } elseif (strlen($artist)==0 && strlen($album)!=0) { ?>
-                                <li>Album</li>                          
-                            <?php } 
-                            if (strlen($album)!=0) { ?>     
+                                <li>Album</li>
+                            <?php }
+                            if (strlen($album)!=0) { ?>
                                 <li class="active"><?php print $album; ?></li>
                             <?php } else { ?>
                                 <li class="active">Suche: <?php print $query; ?></li>
@@ -76,9 +76,9 @@ require_once('mpd/globalFunctions.php');
                             <div class="panel-heading">
                                 <span>Tracks:</span>
                                 <button class="btn btn-xs btn-warning pull-right" onclick="searchModal('<?php print urlencode($query); ?>')">Alle hinzufügen</button>
-                            </div> 
-                            
-                            
+                            </div>
+
+
                             <table class="table table-hover" id="suchergebnis">
                                 <thead>
                                     <tr>
@@ -90,8 +90,8 @@ require_once('mpd/globalFunctions.php');
                                 <tbody>
 
 
-                        <?php   
-    
+                        <?php
+
                             if ($searchResults) {
                             // Then print the tracks
 
@@ -99,19 +99,19 @@ require_once('mpd/globalFunctions.php');
                                 foreach ($searchResults['files'] as $key => $tracks) {
                                     $track = $tracks['Artist']." - ".$tracks['Title'];
                                     $track = str_replace ('\"', '\\"', $track);
-                                    $track = str_replace ("\'", "\\'", $track);                                            
+                                    $track = str_replace ("\'", "\\'", $track);
                                     $track = urlencode($track);
-                                    
-                                    if (array_key_exists('Album', $tracks)) {                                        
+
+                                    if (array_key_exists('Album', $tracks)) {
                                         $result_album = "Album: ".$tracks['Album'];
                                     } else {
                                         $result_album = "no album information";
                                     }
-                                    
+
                                     echo "<tr onclick='addTrackToPlayQueue(&#34;" . urlencode($tracks['file']) . "&#34;, &#34;" . $track . "&#34;)'>";
                                     echo "<td>" . ++$number . "</td>";
-                                    echo "<td>" . $tracks['Artist'] . " - " . $tracks['Title'] . "<br /><span class='album-grey'>" . $result_album . "</span></td>";                      
-                                    echo "<td>" . convertSecsToMinsSecs($tracks['Time']) . "</td></tr>";                      
+                                    echo "<td>" . $tracks['Artist'] . " - " . $tracks['Title'] . "<br /><span class='album-grey'>" . $result_album . "</span></td>";
+                                    echo "<td>" . convertSecsToMinsSecs($tracks['Time']) . "</td></tr>";
 
                                 }
                             } else echo "<tr><td colspan='2'>keine Ergebnisse für <i>" . $query . "</i> </td></tr>";
@@ -119,24 +119,27 @@ require_once('mpd/globalFunctions.php');
                         ?>
                                 </tbody>
                             </table>
-                            
-                            
+
+
                         </div>
 
                         <?php
                         // Suchergebnisse ENDE
                         break;
-                        
+
                     case "artists":
-                    
+
                         // All Artists START
 
                         $mpd = new mpd($host,$mpdPort,$mpdPassword);
                         $artistsResults = $mpd->GetArtists();
-                        
-                        // delete 1st element because its NULL 
-                        if ($artistsResults[0] == NULL) unset ($artistsResults[0]);                                          
-                        
+
+                        // sort alphabetical
+                        sort($artistsResults);
+
+                        // delete 1st element because its NULL
+                        if ($artistsResults[0] == NULL) unset ($artistsResults[0]);
+
                         ?>
                         <ol class="breadcrumb">
                           <li><a href="browse.php">Bibliothek</a></li>
@@ -145,15 +148,15 @@ require_once('mpd/globalFunctions.php');
                         <div class="list-group">
                             <a class="list-group-item active">
                                 <span>Artists</span>
-                            </a>  
-                            
-                        <?php   
+                            </a>
+
+                        <?php
                             if ($artistsResults) {
                             // Then print the tracks
                                 foreach ($artistsResults as $key => $artist) {
-                                  echo "<a class='list-group-item' href='browse.php?mode=albums&query=".urlencode($artist)."&artist=".urlencode($artist)."'>";                      
+                                  echo "<a class='list-group-item' href='browse.php?mode=albums&query=".urlencode($artist)."&artist=".urlencode($artist)."'>";
                                   echo $artist;
-                                  echo "</a>";                      
+                                  echo "</a>";
 
                                 }
                             } else echo "<tr><td colspan='2'>keine Ergebnisse für <i>".$query."</i> </td></tr>";
@@ -164,18 +167,21 @@ require_once('mpd/globalFunctions.php');
 
 
                         <?php
-                        
+
                         // All Artists ENDE
                         break;
-                    
+
                     case "albums":
-                        // All Artists START
-                        $mpd = new mpd($host,$mpdPort,$mpdPassword);                        
+                        // All Albums START
+                        $mpd = new mpd($host,$mpdPort,$mpdPassword);
                         $albumResults = $mpd->GetAlbums(urldecode($query));
-                                                
-                        // delete 1st element because its NULL 
-                        if ($albumResults[0] == NULL) unset ($albumResults[0]);                    
-                        
+
+                        // sort alphabetical
+                        sort($albumResults);
+
+                        // delete 1st element because its NULL
+                        if ($albumResults[0] == NULL) unset ($albumResults[0]);
+
                         ?>
                         <ol class="breadcrumb">
                           <li><a href="browse.php">Bibliothek</a></li>
@@ -184,24 +190,25 @@ require_once('mpd/globalFunctions.php');
                           <?php } ?>
                           <?php if (strlen($artist)==0 && strlen($album)==0) { ?>
                             <li>Alle Alben</li>
-                          <?php } else {?>                            
+                          <?php } else {?>
                           <li class="active"><?php print $artist; ?></li>
                           <?php } ?>
                         </ol>
                         <div class="list-group">
                             <a class="list-group-item active">
                                 <span>Album</span>
-                            </a>  
+                            </a>
 
 
-                        <?php   
-                        
+                        <?php
+
                         if ($albumResults) {
                         // Then print the tracks
                             foreach ($albumResults as $key => $album) {
-                              echo "<a class='list-group-item' href='browse.php?mode=search&query=".urlencode($album)."&artist=".urlencode($artist)."&album=".urlencode($album)."'>";                      
+							  echo "<a class='list-group-item' href='browse.php?mode=search&query=".urlencode($album)."&artist=".urlencode($artist)."&album=".urlencode($album)."'>";
+                              //echo "<img src='$cover_art_url' /> ";
                               echo $album;
-                              echo "</a>";                      
+                              echo "</a>";
 
                             }
                         } else echo "<tr><td colspan='2'>keine Ergebnisse für <i>".$query."</i> </td></tr>";
@@ -212,7 +219,7 @@ require_once('mpd/globalFunctions.php');
 
 
                         <?php
-                        // All Artists ENDE
+                        // All Albums ENDE
                         break;
                     case "playlists":
                         // Alle Playlists START
@@ -224,35 +231,38 @@ require_once('mpd/globalFunctions.php');
                         <div class="list-group">
                             <a class="list-group-item active">
                                 <span>Playlists</span>
-                            </a>                
+                            </a>
                         <?php
                         $mpd = new mpd($host,$mpdPort,$mpdPassword);
                         $playlistsResults = $mpd->GetDir();
-                        
-                        
+
+                        // sort alphabetical
+                        sort($playlistsResults['playlists']);
+
+
                         if ($playlistsResults) {
                         // Then print the tracks
                             foreach ($playlistsResults['playlists'] as $key => $playlist) {
-                                echo "<a class='list-group-item' href='browse.php?mode=playlist&query=".urlencode($playlist)."'>";                      
+                                echo "<a class='list-group-item' href='browse.php?mode=playlist&query=".urlencode($playlist)."'>";
                                 echo $playlist;
-                                
+
                                 $listsinfo = getPlaylistDate($mpd);
                                 foreach ($listsinfo as $value) {
                                     if ($value['playlist']==$playlist)
                                         print " <p class='text-right small text-muted'> erstellt am ".formatTimeStamp($value['date'])."</p>";
                                 }
-                                
-                                echo "</a>";  
+
+                                echo "</a>";
                             }
                         } else echo "<span class='list-group-item'>Keine Playlists vorhanden</span>";
-                        
+
                         ?>
 
                         </div>
-                            
+
                         <?php
                         // Alle Playlists ENDE
-                        break;   
+                        break;
                     case "playlist":
                         // Einzelne Playlist START
                         //   $playlistTrackLiting = getDataArrayFromString($mpd->SendCommand("listplaylistinfo $playlistName"));
@@ -261,13 +271,13 @@ require_once('mpd/globalFunctions.php');
                             <li><a href="browse.php">Bibliothek</a></li>
                             <li><a href="browse.php?mode=playlists">Playlists</a></li>
                             <li class="active"><?php print $query; ?></li>
-                        </ol>                
+                        </ol>
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <span>Playlist: <?php print $query; ?></span>
                                 <button class="btn btn-xs btn-warning pull-right" onclick="playlistModal('<?php print $query; ?>')">Alle hinzufügen</button>
-                            </div> 
-                            
+                            </div>
+
                             <table class="table table-hover" id="suchergebnis">
                                 <thead>
                                     <tr>
@@ -277,7 +287,7 @@ require_once('mpd/globalFunctions.php');
                                         <th>Time</th>
                                     </tr>
                                 </thead>
-                                <tbody>               
+                                <tbody>
                             <?php
                             $mpd = new mpd($host,$mpdPort,$mpdPassword);
                             $playlistResults = ($mpd->SendCommand("listplaylistinfo ".$query));
@@ -289,32 +299,32 @@ require_once('mpd/globalFunctions.php');
                             // Then print the tracks
                                 $nummer = 1;
                                 foreach ($playlistResults as $key => $track) {
-                                    $song = $track['artist']." - ".$track['title'];                                    
+                                    $song = $track['artist']." - ".$track['title'];
                                     $song = str_replace ('\"', '\\"', $song);
-                                    $song = str_replace ("\'", "\\'", $song);                                            
-                                    $song = urlencode($song);                                    
+                                    $song = str_replace ("\'", "\\'", $song);
+                                    $song = urlencode($song);
                                     echo "<tr onclick='addTrackToPlayQueue(&#34;".urlencode($track['File'])."&#34;, &#34;".$song."&#34;)'>";
                                         echo "<td>".$nummer++."</td>";
                                         echo "<td>".$track['artist']."</td>";
-                                        echo "<td>".$track['title']."</td>";                      
+                                        echo "<td>".$track['title']."</td>";
                                         echo "<td>".convertSecsToMinsSecs($track['time'])."</td>";
-                                    echo "</tr>";                
+                                    echo "</tr>";
                                 }
-                            } else echo "<tr><td colspan='3'>Keine Tracks in dieser PLaylist gefunden</td></tr>";
+                            } else echo "<tr><td colspan='3'>Keine Tracks in dieser Playlist gefunden</td></tr>";
 
                             echo "</tbody></table";
-                        echo "</div>";    
+                        echo "</div>";
                         // einzelne Playlist ENDE
                         break;
                     case "radios":
                         // All Artists START
-                        echo "Webradios";
+                        echo "Funktion noch nicht implementiert";
                         // All Artists ENDE
-                        break;                     
-                
-                    default:                    
-                        // Standardausgabe START    
-                
+                        break;
+
+                    default:
+                        // Standardausgabe START
+
                     ?>
 
                     <div class="list-group">
@@ -337,23 +347,27 @@ require_once('mpd/globalFunctions.php');
                                 <span class="PlaylistIcon image"></span>
                                 <span class="name">Playlists</span>
                                 <span class="arrow"></span>
-                        </a>   
+                        </a>
+                    <?php
+                    /*  uncomment when radio-view gets implemented
                         <a class="list-group-item" href="browse.php?mode=radios">
                                 <span class="TrackIcon image"></span>
                                 <span class="name">Webradios</span>
                                 <span class="arrow"></span>
                         </a>
-                        
+                    */
+                    ?>
+
                     </div>
 
-                    <?php 
-                    // Standardausgabe ENDE 
-                    
-                }              
+                    <?php
+                    // Standardausgabe ENDE
+
+                }
                 // switch ENDE
-                
+
                 ?>
-                
+
             </div><!-- /.col-md-2 -->
         </div><!-- /.row -->
     </div><!-- /.container -->
@@ -363,7 +377,7 @@ require_once('mpd/globalFunctions.php');
         <div class="modal-content">
           <div class="modal-body">
               <p id="addModalTrack" class="h3"></p>
-              <p> ..wurde zur Playlist hinzugefügt</p>    
+              <p> ..wurde zur Playlist hinzugefügt</p>
           </div>
 
           <div class="modal-footer">
@@ -372,7 +386,7 @@ require_once('mpd/globalFunctions.php');
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div>
-    
+
     <div class="modal" id="allModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -385,14 +399,14 @@ require_once('mpd/globalFunctions.php');
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Nein</button>          
+              <button type="button" class="btn btn-default" data-dismiss="modal">Nein</button>
               <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="addAllSongsFromPlaylist()">OK</button>
 
             </div>
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
       </div>
-    
+
     <div class="modal" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -406,13 +420,13 @@ require_once('mpd/globalFunctions.php');
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Nein</button>          
+              <button type="button" class="btn btn-default" data-dismiss="modal">Nein</button>
               <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="addAllSongsFromSearch()">OK</button>
 
             </div>
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
-      </div>    
-    
-    
+      </div>
+
+
 <?php include("footer.php"); ?>
